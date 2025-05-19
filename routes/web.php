@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-
+use App\Livewire\Product\ProductLive;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -18,5 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/products', ProductLive::class)->name('products');
+});
 require __DIR__.'/auth.php';
