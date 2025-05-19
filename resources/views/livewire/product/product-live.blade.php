@@ -233,7 +233,7 @@
                             <flux:input label="Unidad Primaria" wire:model="primary_unit" required class="w-full" placeholder="Ej: Unidad, Kg, Lt" />
                             <flux:input label="Unidad Secundaria" wire:model="secondary_unit" class="w-full" placeholder="Ej: Docena, Caja" />
                             <div class="space-y-2">
-                                <flux:input type="number" step="0.01" min="0" label="Precio de Compra" 
+                                <flux:input type="number" step="0.01" min="0" label="Precio de Compra"
                                     wire:model="purchase_price" required class="w-full" placeholder="0.00" />
                             </div>
                             <div class="space-y-2">
@@ -246,7 +246,7 @@
                             </div>
                         </div>
                     </x-mary-tab>
-                    
+
                     <x-mary-tab name="inventory" label="Inventario" icon="o-cube">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                             <div class="space-y-2">
@@ -271,41 +271,54 @@
                             </div>
                         </div>
                     </x-mary-tab>
-                    
+
                     <x-mary-tab name="classification" label="Clasificación" icon="o-tag">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                             <div class="space-y-2">
-                                <flux:select label="Categoría" wire:model="category_id" required class="w-full">
-                                    <option value="">Seleccione una categoría</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </flux:select>
+                                <x-mary-choices-offline
+                                    label="Categoría"
+                                    wire:model="category_id"
+                                    :options="$categories"
+                                    placeholder="Seleccione una categoría"
+                                    required
+                                    single
+                                    searchable
+                                    
+                                    clearable
+                                />
                             </div>
-                            
+
                             <div class="space-y-2">
-                                <flux:select label="Marca" wire:model="brand_id" required class="w-full">
-                                    <option value="">Seleccione una marca</option>
-                                    @foreach($brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                    @endforeach
-                                </flux:select>
+                                <x-mary-choices-offline
+                                    label="Marca"
+                                    wire:model="brand_id"
+                                    :options="$brands"
+                                    placeholder="Seleccione una marca"
+                                    required
+                                    single
+                                    searchable
+                                    
+                                    clearable
+                                />
                             </div>
-                            
+
                             <div class="space-y-2">
-                                <flux:select label="Proveedor" wire:model="supplier_id" required class="w-full">
-                                    <option value="">Seleccione un proveedor</option>
-                                    @if(isset($suppliers) && count($suppliers) > 0)
-                                        @foreach($suppliers as $supplier)
-                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </flux:select>
+                                <x-mary-choices-offline
+                                    label="Proveedor"
+                                    wire:model="supplier_id"
+                                    :options="$suppliers"
+                                    placeholder="Seleccione un proveedor"
+                                    required
+                                    single
+                                    searchable
+                                    
+                                    clearable
+                                />
                             </div>
                         </div>
                     </x-mary-tab>
                 </x-mary-tabs>
-                
+
                 <!-- Errores de validación -->
                 @if ($errors->any())
                     <div class="w-full mt-4">
@@ -324,20 +337,20 @@
                         </div>
                     </div>
                 @endif
-                
+
                 <!-- Botones de acción -->
                 <div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-4 mt-6">
-                    <flux:button 
-                        type="button" 
+                    <flux:button
+                        type="button"
                         wire:click="$set('modal_form', false)"
                         class="w-full sm:w-auto flex items-center justify-center"
                         icon="x-mark"
                     >
                         Cancelar
                     </flux:button>
-                    <flux:button 
-                        type="submit" 
-                        variant="primary" 
+                    <flux:button
+                        type="submit"
+                        variant="primary"
                         class="w-full sm:w-auto flex items-center justify-center"
                         icon="check"
                         spinner

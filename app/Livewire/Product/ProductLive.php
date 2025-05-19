@@ -138,6 +138,23 @@ class ProductLive extends Component
     {
         $this->is_edit = true;
         $this->product = Product::findOrFail($id);
+        $this->internal_code = $this->product->internal_code;
+        $this->barcode = $this->product->barcode;
+        $this->commercial_name = $this->product->commercial_name;
+        $this->technical_name = $this->product->technical_name;
+        $this->presentation = $this->product->presentation;
+        $this->primary_unit = $this->product->primary_unit;
+        $this->secondary_unit = $this->product->secondary_unit;
+        $this->category_id = $this->product->category_id;
+        $this->brand_id = $this->product->brand_id;
+        $this->supplier_id = $this->product->supplier_id;
+        $this->minimum_stock = $this->product->minimum_stock;
+        $this->maximum_stock = $this->product->maximum_stock;
+        $this->purchase_price = $this->product->purchase_price;
+        $this->sale_price = $this->product->sale_price;
+        $this->profit_margin = $this->product->profit_margin;
+        $this->status = $this->product->status;
+        $this->description = $this->product->description;
         $this->modal_form = true;
     }
     public function store()
