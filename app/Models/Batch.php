@@ -13,12 +13,14 @@ class Batch extends Model
 
     protected $fillable = [
         'product_id',
+        'warehouse_id',
         'batch_number',
         'manufacturing_date',
         'expiration_date',
         'quantity',
         'unit_price',
         'status',
+        'notes',
     ];
 
     protected $casts = [
@@ -30,6 +32,11 @@ class Batch extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function warehouse(): BelongsTo
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 
     public function movements(): HasMany

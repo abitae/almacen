@@ -5,12 +5,15 @@ namespace Database\Seeders;
 use App\Models\Batch;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Movement;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
+use App\Models\SaleOrder;
+use App\Models\SaleOrderItem;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Warehouse;
@@ -87,10 +90,10 @@ class DatabaseSeeder extends Seeder
         });
 
         // Crear lotes para cada producto
-        $products->each(function ($product) {
+        $products->each(function ($product) use ($warehouses) {
             Batch::factory()
                 ->count(rand(1, 3))
-                ->state(['product_id' => $product->id])
+                ->state(['product_id' => $product->id, 'warehouse_id' => $warehouses->random()->id])
                 ->create();
         });
 
@@ -131,6 +134,34 @@ class DatabaseSeeder extends Seeder
                         'warehouse_id' => $warehouse->id,
                         'location_id' => $location->id,
                         'user_id' => $admin->id,
+                    ];
+                })
+                ->create();
+        });
+
+        // Crear clientes
+        $customers = Customer::factory()->count(15)->create();
+
+        // Crear órdenes de venta
+        $saleOrders = SaleOrder::factory()
+            ->count(30)
+            ->state(function (array $attributes) use ($customers, $admin) {
+                return [
+                    'customer_id' => $customers->random()->id,
+                    'user_id' => $admin->id,
+                ];
+            })
+            ->create();
+
+        // Crear items para cada orden de venta
+        $saleOrders->each(function ($order) use ($products) {
+            SaleOrderItem::factory()
+                ->count(rand(1, 5))
+                ->state(function (array $attributes) use ($order, $products) {
+                    $product = $products->random();
+                    return [
+                        'sale_order_id' => $order->id,
+                        'product_id' => $product->id,
                     ];
                 })
                 ->create();

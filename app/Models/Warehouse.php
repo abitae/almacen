@@ -25,6 +25,11 @@ class Warehouse extends Model
         return $this->hasMany(Location::class);
     }
 
+    public function batches(): HasMany
+    {
+        return $this->hasMany(Batch::class);
+    }
+
     public function movements(): HasMany
     {
         return $this->hasMany(Movement::class);
